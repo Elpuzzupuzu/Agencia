@@ -59,7 +59,7 @@
     </style>
 </head>
 <body>
-    <h1>Lista de músicos
+    <h1>Lista de clientes
         <br>
         <a id="regresar" href="./index.php">Regresar al menú</a>
     </h1>
