@@ -1,69 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Empleados</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Registro de Empleado</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <h1 class="text-center mt-4 mb-4">Registro de Músicos</h1>
-        <a href="./index.php" class="btn btn-primary mb-3">Regresar al menú</a>
-        <?php
-        session_start();
-        if (isset($_SESSION['mensaje'])) {
-            echo "<div class='alert alert-success' role='alert'>" . $_SESSION['mensaje'] . "</div>";
-            unset($_SESSION['mensaje']); // Eliminar el mensaje después de mostrarlo
-        }
-        ?>
-        <form class="col-4 p-3" action="registrar_musico.php" method="POST">
+    <div class="container mt-5">
+        <h1 class="text-center">Registro de Empleado</h1>
+
+        <!-- Formulario para registrar contrato -->
+        <form class="col-4 p-3" action="registrar_contrato.php" method="POST">
             <h3 class="text-center text-secondary">Registrar contrato</h3>
             <div class="mb-3">
-                <label for="nombre" class="form-label">numero de contrato</label>
+                <label for="nombre" class="form-label">Número de Contrato</label>
                 <input type="text" class="form-control" id="nombre" name="nombre" required>
             </div>
-            
             <div class="mb-3">
                 <label for="fechacontrato" class="form-label">Fecha de Contrato</label>
                 <input type="date" class="form-control" id="fechacontrato" name="fechacontrato" required>
             </div>
-            
             <button type="submit" class="btn btn-primary">Registrar contrato</button>
         </form>
 
-
-        <form class="col-4 p-3" action="registrar_musico.php" method="POST">
-            <h3 class="text-center text-secondary">Registrar contrato</h3>
+        <!-- Formulario para registrar cuenta -->
+        <form class="col-4 p-3" action="registrar_cuenta.php" method="POST">
+            <h3 class="text-center text-secondary">Registrar cuenta</h3>
             <div class="mb-3">
-                <label for="cuenta" class="form-label">numero de cuenta</label>
+                <label for="cuenta" class="form-label">Número de Cuenta</label>
                 <input type="text" class="form-control" id="cuenta" name="cuenta" required>
             </div>
-            
             <button type="submit" class="btn btn-primary">Registrar cuenta</button>
         </form>
 
-        <form class="col-4 p-3" action="registrar_turno.php" method="POST">
-            <h3 class="text-center text-secondary">Registrar turno</h3>
-            <div class="mb-3">
-                <label for="turno" class="form-label">numero de cuenta</label>
-                <select class="form-select" id="turno" name="turno" required>
-                    <option value="1">mañana</option>
-                    <option value="2">tarde</option>
-                    <option value="3">tarde</option>
-                    <option value="4">turno a</option>
-                    <option value="5">turno b</option>
-                  
-                </select>
-            </div>
-            
-            <button type="submit" class="btn btn-primary">Registrar turno</button>
-        </form>
-
-
-
-        <form class="col-4 p-3" action="registrar_musico.php" method="POST">
-            <h3 class="text-center text-secondary">Registrar Músico</h3>
+        <!-- Formulario para registrar empleado -->
+        <form class="col-4 p-3" action="registrar_empleado.php" method="POST">
+            <h3 class="text-center text-secondary">Registrar empleado</h3>
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre</label>
                 <input type="text" class="form-control" id="nombre" name="nombre" required>
@@ -73,62 +46,53 @@
                 <input type="text" class="form-control" id="apellido" name="apellido" required>
             </div>
             <div class="mb-3">
-                <label for="fechanacimiento" class="form-label">Fecha de Nacimiento</label>
-                <input type="date" class="form-control" id="fechanacimiento" name="fechanacimiento" required>
-            </div>
-            <div class="mb-3">
-                <label for="genero" class="form-label">Género</label>
-                <select class="form-select" id="genero" name="genero" required>
-                    <option value="masculino">Masculino</option>
-                    <option value="femenino">Femenino</option>
+                <label for="turno" class="form-label">Turno</label>
+                <select class="form-select" id="turno" name="turno" required>
+                    <option value="1">Mañana</option>
+                    <option value="2">Tarde</option>
+                    <option value="3">Noche</option>
+                    <option value="4">Turno A</option>
+                    <option value="5">Turno B</option>
                 </select>
             </div>
             <div class="mb-3">
-                <label for="nacionalidad" class="form-label">Nacionalidad</label>
-                <input type="text" class="form-control" id="nacionalidad" name="nacionalidad" required>
-            </div>
-            <div class="mb-3">
-                <label for="instrumento" class="form-label">Instrumento</label>
-                <select class="form-select" id="instrumento" name="instrumento" required>
-                    <option value="1">Violin</option>
-                    <option value="2">Viola</option>
-                    <option value="3">Violonchelo</option>
-                    <option value="4">Contrabajo</option>
-                    <option value="5">Arpa</option>
-                    <option value="6">Flauta</option>
-                    <option value="7">Oboe</option>
-                    <option value="8">Clarinete</option>
-                    <option value="9">Fagot</option>
-                    <option value="10">Trompeta</option>
-                    <option value="11">Trombón</option>
-                    <option value="12">Tuba</option>
-                    <option value="13">Corno</option>
-                    <option value="14">Tambor</option>
-                    <option value="15">Piano</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="fechaingreso" class="form-label">Fecha de Ingreso</label>
-                <input type="date" class="form-control" id="fechaingreso" name="fechaingreso" required>
-            </div>
-            <div class="mb-3">
-                <label class="form-label" for="estado">Estado</label>
+                <label class="form-label" for="capacitacion">Capacitación</label>
                 <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="estado" name="estado" value="activo">
-                    <label class="form-check-label" for="estado">Activo/Inactivo</label>
+                    <input class="form-check-input" type="checkbox" id="capacitacion" name="capacitacion" value="activo">
+                    <label class="form-check-label" for="capacitacion">Activo/Inactivo</label>
                 </div>
             </div>
             <div class="mb-3">
-                <label for="temporada" class="form-label">Temporada</label>
-                <select class="form-select" id="temporada" name="temporada" required>
-                    <option value="1">Concierto de primavera</option>
-                    <option value="2">Festival de Verano</option>
-                    <option value="3">Recital de Otoño</option>
-                    <option value="4">Gala de Invierno</option>
+                <label for="direccion" class="form-label">Dirección</label>
+                <input type="text" class="form-control" id="direccion" name="direccion" required>
+            </div>
+            <div class="mb-3">
+                <label for="ciudad" class="form-label">Ciudad</label>
+                <input type="text" class="form-control" id="ciudad" name="ciudad" required>
+            </div>
+            <div class="mb-3">
+                <label for="codigo_postal" class="form-label">Código Postal</label>
+                <input type="text" class="form-control" id="codigo_postal" name="codigo_postal" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="id_prestacion" class="form-label">prestacion</label>
+                <select class="form-select" id="id_prestacion" name="id_prestacion" required>
+                    <option value="1">seguro medico</option>
+                    <option value="2">bono anual</option>
+                    <option value="3">subsidio de transporte</option>
+                    <option value="4">vaciones pagadas</option>
+                    <option value="5">subsidio comida</option>
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary">Registrar Músico</button>
+
+
+
+
+            <button type="submit" class="btn btn-primary">Registrar Empleado</button>
         </form>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
