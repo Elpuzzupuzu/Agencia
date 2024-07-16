@@ -14,12 +14,12 @@
         <form class="col-4 p-3" action="registrar_contrato.php" method="POST">
             <h3 class="text-center text-secondary">Registrar contrato</h3>
             <div class="mb-3">
-                <label for="nombre" class="form-label">Número de Contrato</label>
-                <input type="text" class="form-control" id="nombre" name="nombre" required>
+                <label for="nombre_contrato" class="form-label">Número de Contrato</label>
+                <input type="text" class="form-control" id="nombre_contrato" name="nombre" required>
             </div>
             <div class="mb-3">
-                <label for="fechacontrato" class="form-label">Fecha de Contrato</label>
-                <input type="date" class="form-control" id="fechacontrato" name="fechacontrato" required>
+                <label for="fecha_contrato" class="form-label">Fecha de Contrato</label>
+                <input type="date" class="form-control" id="fecha_contrato" name="fechacontrato" required>
             </div>
             <button type="submit" class="btn btn-primary">Registrar contrato</button>
         </form>
@@ -38,8 +38,8 @@
         <form class="col-4 p-3" action="registrar_empleado.php" method="POST">
             <h3 class="text-center text-secondary">Registrar empleado</h3>
             <div class="mb-3">
-                <label for="nombre" class="form-label">Nombre</label>
-                <input type="text" class="form-control" id="nombre" name="nombre" required>
+                <label for="nombre_empleado" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre_empleado" name="nombre" required>
             </div>
             <div class="mb-3">
                 <label for="apellido" class="form-label">Apellido</label>
@@ -56,16 +56,18 @@
                 </select>
             </div>
             <div class="mb-3">
-                <label class="form-label" for="capacitacion">Capacitación</label>
+                <label class="form-label">Capacitación</label>
                 <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="capacitacion" name="capacitacion" value="activo">
+                    <input class="form-check-input" type="checkbox" id="capacitacion" name="capacitacion" value="1">
                     <label class="form-check-label" for="capacitacion">Activo/Inactivo</label>
                 </div>
             </div>
+
             <div class="mb-3">
                 <label for="direccion" class="form-label">Dirección</label>
                 <input type="text" class="form-control" id="direccion" name="direccion" required>
             </div>
+            
             <div class="mb-3">
                 <label for="ciudad" class="form-label">Ciudad</label>
                 <input type="text" class="form-control" id="ciudad" name="ciudad" required>
@@ -76,19 +78,15 @@
             </div>
 
             <div class="mb-3">
-                <label for="id_prestacion" class="form-label">prestacion</label>
+                <label for="id_prestacion" class="form-label">Prestación</label>
                 <select class="form-select" id="id_prestacion" name="id_prestacion" required>
-                    <option value="1">seguro medico</option>
-                    <option value="2">bono anual</option>
-                    <option value="3">subsidio de transporte</option>
-                    <option value="4">vaciones pagadas</option>
-                    <option value="5">subsidio comida</option>
+                    <option value="1">Seguro Médico</option>
+                    <option value="2">Bono Anual</option>
+                    <option value="3">Subsidio de Transporte</option>
+                    <option value="4">Vacaciones Pagadas</option>
+                    <option value="5">Subsidio Comida</option>
                 </select>
             </div>
-
-
-
-
             <button type="submit" class="btn btn-primary">Registrar Empleado</button>
         </form>
     </div>

@@ -24,7 +24,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die('Error en la preparación de la consulta: ' . $conection->error);
     }
 
-    $stmt->bind_param("ssiiiiisss", $nombre, $apellido, $id_contrato, $id_cuenta, $id_turno, $capacitacion, $direccion, $ciudad, $cpostal, $id_prestacion);
+    // Asegurarse de que `direccion` se vincule como una cadena de texto (`s` en bind_param)
+    $stmt->bind_param("ssiiiisssi", $nombre, $apellido, $id_contrato, $id_cuenta, $id_turno, $capacitacion, $direccion, $ciudad, $cpostal, $id_prestacion);
 
     if ($stmt->execute()) {
         // Obtener el ID del empleado recién insertado
