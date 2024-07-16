@@ -58,7 +58,6 @@ if (isset($_SESSION['mensaje'])) {
                             <th scope="col">id_contrato</th>
                             <th scope="col">id_cuenta</th>
                             <th scope="col">id turno</th>
-                            <th scope="col">id_instrumento</th>
                             <th scope="col">capacitacion</th>
                             <th scope="col">direccion</th>
                             <th scope="col">ciudad</th>
@@ -97,8 +96,8 @@ if (isset($_SESSION['mensaje'])) {
                                         <td><?= $datos->cpostal ?></td>
                                         <td><?= $datos->id_prestacion ?></td>
                                         <td>
-                                            <a href="editar_empleado.php?id=<?= $datos->id_musico ?>" class="btn btn-warning btn-sm">Editar</a>
-                                            <a href="eliminar_empleado.php?id=<?= $datos->id_musico ?>" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este registro?');">Eliminar</a>
+                                            <a href="editar_empleado.php?id=<?= $datos->id ?>" class="btn btn-warning btn-sm">Editar</a>
+                                            <a href="eliminar_empleado.php?id=<?= $datos->id ?>" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este registro?');">Eliminar</a>
                                         </td>
                                     </tr>
                                 <?php }
