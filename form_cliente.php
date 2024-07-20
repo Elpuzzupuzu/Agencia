@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="text-center mt-4 mb-4">Registro de Músicos</h1>
+        <h1 class="text-center mt-4 mb-4">Registro de Clientes</h1>
         <a href="./index.php" class="btn btn-primary mb-3">Regresar al menú</a>
         <?php
         session_start();
@@ -18,7 +18,7 @@
         }
         ?>
         <form class="col-4 p-3" action="registrar_cliente.php" method="POST">
-            <h3 class="text-center text-secondary">Registrar Músico</h3>
+            <h3 class="text-center text-secondary">Registrar Cliente</h3>
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre</label>
                 <input type="text" class="form-control" id="nombre" name="nombre" required>
@@ -53,7 +53,7 @@
             </div>
             
             
-            <button type="submit" class="btn btn-primary">Registrar Músico</button>
+            <button type="submit" class="btn btn-primary">Registrar Cliente</button>
         </form>
     </div>
 </body>
