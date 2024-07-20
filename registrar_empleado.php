@@ -14,10 +14,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $direccion = isset($_POST['direccion']) ? $_POST['direccion'] : '';
     $ciudad = isset($_POST['ciudad']) ? $_POST['ciudad'] : '';
     $cpostal = isset($_POST['codigo_postal']) ? $_POST['codigo_postal'] : '';
-    $id_prestacion = isset($_POST['id_prestacion']) ? $_POST['id_prestacion'] : '';
+    $infonavit = isset($_POST['infonavit']) ? 1 : 0; // Convertir checkbox a valor booleano
+    $seguro_social = isset($_POST['seguro-social']) ? 1 : 0; // Convertir checkbox a valor 
+    $afore = isset($_POST['afore']) ? 1 : 0; // Convertir checkbox a valor booleano
+    $vacaciones = isset($_POST['vacaciones']) ? 1 : 0; // Convertir checkbox a valor booleano
+
+
+
+
 
     // Preparar la llamada al procedimiento almacenado
-    $sql = "CALL sp_insertar_empleado(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "CALL sp_insertar_empleado(?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)";
     $stmt = $conection->prepare($sql);
 
     if (!$stmt) {
@@ -25,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Asegurarse de que `direccion` se vincule como una cadena de texto (`s` en bind_param)
-    $stmt->bind_param("ssiiiisssi", $nombre, $apellido, $id_contrato, $id_cuenta, $id_turno, $capacitacion, $direccion, $ciudad, $cpostal, $id_prestacion);
+    $stmt->bind_param("ssiiiisssiiii", $nombre, $apellido, $id_contrato, $id_cuenta, $id_turno, $capacitacion, $direccion, $ciudad, $cpostal,$infonavit,$seguro_social,$afore,$vacaciones);
 
     if ($stmt->execute()) {
         // Obtener el ID del empleado recién insertado

@@ -16,22 +16,26 @@ function validarDatos($datos) {
     if (empty($datos['apellido'])) {
         return 'El apellido es obligatorio.';
     }
-    if (!isset($datos['capacitacion'])) {
-        return 'La capacitación es obligatoria.';
-    }
-    if (!in_array($datos['prestacion'], [1, 2, 3, 4, 5])) {
-        return 'La prestación debe ser un valor entre 1 y 5.';
+    if (empty($datos['turno'])) {
+        return 'El turno es obligatorio.';
     }
     return ''; // Devuelve cadena vacía si no hay errores
 }
 
 // Función para ejecutar el procedimiento almacenado de actualización
-function actualizarMusico($conexion, $id, $nombre, $apellido, $id_turno, $capacitacion, $direccion, $ciudad, $cpostal, $id_prestacion) {
-    $sql = $conexion->prepare("CALL sp_editar_empleado(?, ?, ?, ?, ?, ?, ?, ?, ?)");
+function actualizarEmpleado($conexion, $id, $nombre, $apellido, $id_turno, $capacitacion, $direccion, $ciudad, $cpostal, $infonavit, $seguro_social, $afore, $vacaciones) {
+    $sql = $conexion->prepare("CALL sp_editar_empleado(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     if ($sql === false) {
         die('Error en la preparación de la consulta SQL: ' . $conexion->error);
     }
-    $sql->bind_param("issiisssi", $id, $nombre, $apellido, $id_turno, $capacitacion, $direccion, $ciudad, $cpostal, $id_prestacion);
+    // Convertir los valores booleanos a enteros (0 o 1) para MySQL
+    $capacitacion = isset($capacitacion) && $capacitacion ? 1 : 0;
+    $infonavit = isset($infonavit) && $infonavit ? 1 : 0;
+    $seguro_social = isset($seguro_social) && $seguro_social ? 1 : 0;
+    $afore = isset($afore) && $afore ? 1 : 0;
+    $vacaciones = isset($vacaciones) && $vacaciones ? 1 : 0;
+
+    $sql->bind_param("issiisssiiii", $id, $nombre, $apellido, $id_turno, $capacitacion, $direccion, $ciudad, $cpostal, $infonavit, $seguro_social, $afore, $vacaciones);
 
     if ($sql->execute()) {
         return true; // Éxito en la ejecución del procedimiento almacenado
@@ -45,12 +49,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
     $id = intval($_POST['id']);
     $nombre = $_POST['nombre'];
     $apellido = $_POST['apellido'];
-    $id_turno = !empty($_POST['turno']) ? $_POST['turno'] : null;
-    $capacitacion = isset($_POST['capacitacion']) ? 1 : 0; // Convertir checkbox a booleano
+    $id_turno = !empty($_POST['turno']) ? intval($_POST['turno']) : null;
+    $capacitacion = isset($_POST['capacitacion']) ? 1 : 0; // Checkbox en HTML envía si está seleccionado o no
     $direccion = $_POST['direccion'];
     $ciudad = $_POST['ciudad'];
     $cpostal = $_POST['cpostal'];
-    $id_prestacion = intval($_POST['prestacion']);
+    $infonavit = isset($_POST['infonavit']) ? 1 : 0; // Checkbox en HTML envía si está seleccionado o no
+    $seguro_social = isset($_POST['seguro-social']) ? 1 : 0; // Checkbox en HTML envía si está seleccionado o no
+    $afore = isset($_POST['afore']) ? 1 : 0; // Checkbox en HTML envía si está seleccionado o no
+    $vacaciones = isset($_POST['vacaciones']) ? 1 : 0; // Checkbox en HTML envía si está seleccionado o no
 
     // Validación de datos
     $validacion = validarDatos($_POST);
@@ -58,9 +65,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
         $errors[] = $validacion;
     }
 
-    // Llamar al procedimiento almacenado para actualizar el músico
+    // Llamar al procedimiento almacenado para actualizar el empleado
     if (empty($errors)) {
-        if (actualizarMusico($conection, $id, $nombre, $apellido, $id_turno, $capacitacion, $direccion, $ciudad, $cpostal, $id_prestacion)) {
+        if (actualizarEmpleado($conection, $id, $nombre, $apellido, $id_turno, $capacitacion, $direccion, $ciudad, $cpostal, $infonavit, $seguro_social, $afore, $vacaciones)) {
             // Almacenar mensaje de éxito en sesión
             session_start();
             $_SESSION['mensaje'] = "Empleado se actualizó correctamente.";
@@ -74,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
     }
 }
 
-// Obtener datos del músico para prellenar el formulario en caso de GET o error de validación
+// Obtener datos del empleado para prellenar el formulario en caso de GET o error de validación
 if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id'])) {
     $id = intval($_GET['id']);
     $sql = $conection->prepare("CALL sp_buscar_empleado_por_id(?)");
@@ -84,8 +91,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id'])) {
     $sql->bind_param("i", $id);
     if ($sql->execute()) {
         $result = $sql->get_result();
-        $musico = $result->fetch_object();
-        if (!$musico) {
+        $empleado = $result->fetch_object();
+        if (!$empleado) {
             die('No se encontró ningún empleado con ese ID.');
         }
     } else {
@@ -99,76 +106,103 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Músico</title>
+    <title>Editar Empleado</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
     <div class="container">
-        <h1 class="text-center p-3">Editar empleado</h1>
-        <?php if (isset($musico)) { ?>
+        <h1 class="text-center p-3">Editar Empleado</h1>
+        <?php if (isset($empleado)) { ?>
             <form class="col-4 p-3" action="editar_empleado.php" method="POST">
-                <input type="hidden" name="id" value="<?php echo $musico->id; ?>">  <!--el id estaba mal nombrado-->
+                <input type="hidden" name="id" value="<?php echo htmlspecialchars($empleado->id); ?>">
                 <h3 class="text-center text-secondary">Editar empleado</h3>
                 <?php if (!empty($errors)) { ?>
                     <div class="alert alert-danger" role="alert">
                         <?php foreach ($errors as $error) { ?>
-                            <p><?php echo $error; ?></p>
+                            <p><?php echo htmlspecialchars($error); ?></p>
                         <?php } ?>
                     </div>
                 <?php } ?>
                 <div class="mb-3">
                     <label for="nombre" class="form-label">Nombre</label>
-                    <input type="text" class="form-control" name="nombre" value="<?php echo isset($_POST['nombre']) ? $_POST['nombre'] : $musico->nombre; ?>" required>
+                    <input type="text" class="form-control" name="nombre" value="<?php echo htmlspecialchars(isset($_POST['nombre']) ? $_POST['nombre'] : $empleado->nombre); ?>" required>
                 </div>
                 <div class="mb-3">
                     <label for="apellido" class="form-label">Apellido</label>
-                    <input type="text" class="form-control" name="apellido" value="<?php echo isset($_POST['apellido']) ? $_POST['apellido'] : $musico->apellido; ?>" required>
+                    <input type="text" class="form-control" name="apellido" value="<?php echo htmlspecialchars(isset($_POST['apellido']) ? $_POST['apellido'] : $empleado->apellido); ?>" required>
                 </div>
                 <div class="mb-3">
                     <label for="turno" class="form-label">Turno</label>
                     <select class="form-select" id="turno" name="turno" required>
-                        <option value="1" <?php echo (isset($_POST['turno']) && $_POST['turno'] == 1) || $musico->id_turno == 1 ? 'selected' : ''; ?>>Mañana</option>
-                        <option value="2" <?php echo (isset($_POST['turno']) && $_POST['turno'] == 2) || $musico->id_turno == 2 ? 'selected' : ''; ?>>Tarde</option>
-                        <option value="3" <?php echo (isset($_POST['turno']) && $_POST['turno'] == 3) || $musico->id_turno == 3 ? 'selected' : ''; ?>>Noche</option>
-                        <option value="4" <?php echo (isset($_POST['turno']) && $_POST['turno'] == 4) || $musico->id_turno == 4 ? 'selected' : ''; ?>>Turno A</option>
-                        <option value="5" <?php echo (isset($_POST['turno']) && $_POST['turno'] == 5) || $musico->id_turno == 5 ? 'selected' : ''; ?>>Turno B</option>
+                        <option value="1" <?php echo (isset($_POST['turno']) && $_POST['turno'] == 1) || $empleado->id_turno == 1 ? 'selected' : ''; ?>>Mañana</option>
+                        <option value="2" <?php echo (isset($_POST['turno']) && $_POST['turno'] == 2) || $empleado->id_turno == 2 ? 'selected' : ''; ?>>Tarde</option>
+                        <option value="3" <?php echo (isset($_POST['turno']) && $_POST['turno'] == 3) || $empleado->id_turno == 3 ? 'selected' : ''; ?>>Noche</option>
                     </select>
                 </div>
                 <div class="mb-3">
-                    <label for="capacitacion" class="form-label">Capacitación</label>
-                    <select class="form-select" id="capacitacion" name="capacitacion" required>
-                        <option value="1" <?php echo (isset($_POST['capacitacion']) && $_POST['capacitacion'] == 1) || $musico->capacitacion == 1 ? 'selected' : ''; ?>>Sí</option>
-                        <option value="0" <?php echo (isset($_POST['capacitacion']) && $_POST['capacitacion'] == 0) || $musico->capacitacion == 0 ? 'selected' : ''; ?>>No</option>
-                    </select>
+                    <label class="form-label">Capacitación</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="capacitacion" name="capacitacion" <?php echo (isset($_POST['capacitacion']) && $_POST['capacitacion']) || $empleado->capacitacion ? 'checked' : ''; ?>>
+                        <label class="form-check-label" for="capacitacion">
+                            ¿Tiene capacitación?
+                        </label>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="direccion" class="form-label">Dirección</label>
-                    <input type="text" class="form-control" name="direccion" value="<?php echo isset($_POST['direccion']) ? $_POST['direccion'] : $musico->direccion; ?>" required>
+                    <input type="text" class="form-control" name="direccion" value="<?php echo htmlspecialchars(isset($_POST['direccion']) ? $_POST['direccion'] : $empleado->direccion); ?>">
                 </div>
                 <div class="mb-3">
                     <label for="ciudad" class="form-label">Ciudad</label>
-                    <input type="text" class="form-control" name="ciudad" value="<?php echo isset($_POST['ciudad']) ? $_POST['ciudad'] : $musico->ciudad; ?>" required>
+                    <input type="text" class="form-control" name="ciudad" value="<?php echo htmlspecialchars(isset($_POST['ciudad']) ? $_POST['ciudad'] : $empleado->ciudad); ?>">
                 </div>
                 <div class="mb-3">
                     <label for="cpostal" class="form-label">Código Postal</label>
-                    <input type="text" class="form-control" name="cpostal" value="<?php echo isset($_POST['cpostal']) ? $_POST['cpostal'] : $musico->cpostal; ?>" required>
+                    <input type="text" class="form-control" name="cpostal" value="<?php echo htmlspecialchars(isset($_POST['cpostal']) ? $_POST['cpostal'] : $empleado->cpostal); ?>">
                 </div>
                 <div class="mb-3">
-                    <label for="prestacion" class="form-label">Prestación</label>
-                    <select class="form-select" id="prestacion" name="prestacion" required>
-                        <option value="1" <?php echo (isset($_POST['prestacion']) && $_POST['prestacion'] == 1) || $musico->id_prestacion == 1 ? 'selected' : ''; ?>>Sí</option>
-                        <option value="2" <?php echo (isset($_POST['prestacion']) && $_POST['prestacion'] == 2) || $musico->id_prestacion == 2 ? 'selected' : ''; ?>>No</option>
-                        <option value="3" <?php echo (isset($_POST['prestacion']) && $_POST['prestacion'] == 3) || $musico->id_prestacion == 3 ? 'selected' : ''; ?>>Parcial</option>
-                        <option value="4" <?php echo (isset($_POST['prestacion']) && $_POST['prestacion'] == 4) || $musico->id_prestacion == 4 ? 'selected' : ''; ?>>Completo</option>
-                        <option value="5" <?php echo (isset($_POST['prestacion']) && $_POST['prestacion'] == 5) || $musico->id_prestacion == 5 ? 'selected' : ''; ?>>Ninguno</option>
-                    </select>
+                    <label class="form-label">Infonavit</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="infonavit" name="infonavit" <?php echo (isset($_POST['infonavit']) && $_POST['infonavit']) || $empleado->infonavit ? 'checked' : ''; ?>>
+                        <label class="form-check-label" for="infonavit">
+                            ¿Tiene Infonavit?
+                        </label>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary" name="btnregistrar">Guardar Cambios</button>
-                <a href="index.php" class="btn btn-danger">Salir</a>
+                <div class="mb-3">
+                    <label class="form-label">Seguro Social</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="seguro-social" name="seguro-social" <?php echo (isset($_POST['seguro-social']) && $_POST['seguro-social']) || $empleado->seguro_social ? 'checked' : ''; ?>>
+                        <label class="form-check-label" for="seguro-social">
+                            ¿Tiene Seguro Social?
+                        </label>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Afore</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="afore" name="afore" <?php echo (isset($_POST['afore']) && $_POST['afore']) || $empleado->afore ? 'checked' : ''; ?>>
+                        <label class="form-check-label" for="afore">
+                            ¿Tiene Afore?
+                        </label>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Vacaciones</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="vacaciones" name="vacaciones" <?php echo (isset($_POST['vacaciones']) && $_POST['vacaciones']) || $empleado->vacaciones ? 'checked' : ''; ?>>
+                        <label class="form-check-label" for="vacaciones">
+                            ¿Tiene Vacaciones?
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Actualizar</button>
             </form>
         <?php } else { ?>
-            <p>No se encontró ningún empleado con ese ID.</p>
+            <p>No se ha proporcionado un ID de empleado válido.</p>
         <?php } ?>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-9oVn2YfMl/8kP07PLgY4w6gB+5ke6xQ0fX9eSAZ5Le+k+E5aMCw5S5YvvF4vopC1" crossorigin="anonymous"></script>
 </body>
 </html>
+

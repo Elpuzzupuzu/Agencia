@@ -24,7 +24,7 @@ if (isset($_SESSION['mensaje'])) {
     </style>
 </head>
 <body>
-    <h1 class="text-center p-3">Orquesta búsqueda por id
+    <h1 class="text-center p-3">Agencia busqueda por ID
         <br>
         <a href="./index.php" class="btn btn-primary">Regresar al menú</a>
     </h1>
@@ -62,7 +62,10 @@ if (isset($_SESSION['mensaje'])) {
                             <th scope="col">direccion</th>
                             <th scope="col">ciudad</th>
                             <th scope="col">codigo postal</th>
-                            <th scope="col">id_prestacion</th>
+                            <th scope="col">infonavit</th>
+                            <th scope="col">seguro_social</th>
+                            <th scope="col">afore</th>
+                            <th scope="col">vacaciones</th>
                             
                             
 
@@ -94,7 +97,14 @@ if (isset($_SESSION['mensaje'])) {
                                         <td><?= $datos->direccion ?></td>
                                         <td><?= $datos->ciudad ?></td>
                                         <td><?= $datos->cpostal ?></td>
-                                        <td><?= $datos->id_prestacion ?></td>
+                                        <td><?= $datos->infonavit ?></td>
+                                        <td><?= $datos->seguro_social ?></td>
+                                        <td><?= $datos->afore ?></td>
+                                        <td><?= $datos->vacaciones ?></td>
+
+
+
+
                                         <td>
                                             <a href="editar_empleado.php?id=<?= $datos->id ?>" class="btn btn-warning btn-sm">Editar</a>
                                             <a href="eliminar_empleado.php?id=<?= $datos->id ?>" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este registro?');">Eliminar</a>

@@ -78,15 +78,40 @@
             </div>
 
             <div class="mb-3">
-                <label for="id_prestacion" class="form-label">Prestación</label>
-                <select class="form-select" id="id_prestacion" name="id_prestacion" required>
-                    <option value="1">Seguro Médico</option>
-                    <option value="2">Bono Anual</option>
-                    <option value="3">Subsidio de Transporte</option>
-                    <option value="4">Vacaciones Pagadas</option>
-                    <option value="5">Subsidio Comida</option>
-                </select>
+                <label class="form-label">Infonavit</label>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="infonavit" name="infonavit" value="1">
+                    <label class="form-check-label" for="infonavit">Activo/Inactivo</label>
+                </div>
             </div>
+
+            <div class="mb-3">
+                <label class="form-label">Seguro Social</label>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="seguro-social" name="seguro-social" value="1">
+                    <label class="form-check-label" for="seguro-social">Activo/Inactivo</label>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Afore</label>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="afore" name="afore" value="1">
+                    <label class="form-check-label" for="afore">Activo/Inactivo</label>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Vacaciones</label>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="vacaciones" name="vacaciones" value="1">
+                    <label class="form-check-label" for="vacaciones">Activo/Inactivo</label>
+                </div>
+            </div>
+
+
+
+        
             <button type="submit" class="btn btn-primary">Registrar Empleado</button>
         </form>
     </div>
