@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conection->close();
 
     // Redirigir después de completar la operación
-    header('Location: form_vendedor.php');
+    header('Location: form_contratos_administracion.php');
     exit;
 }
 ?>

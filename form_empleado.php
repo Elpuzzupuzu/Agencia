@@ -50,9 +50,7 @@
                 <select class="form-select" id="turno" name="turno" required>
                     <option value="1">Mañana</option>
                     <option value="2">Tarde</option>
-                    <option value="3">Noche</option>
-                    <option value="4">Turno A</option>
-                    <option value="5">Turno B</option>
+                  
                 </select>
             </div>
             <div class="mb-3">
