@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sueldo = floatval($_POST['sueldo']); // Convertir a flotante
     
     // Preparar la consulta SQL para insertar datos
-    $stmt = $conection->prepare("CALL insertarVendedor(?, ?)");
+    $stmt = $conection->prepare("CALL insertarMecanico(?, ?)");
 
     // Verificar si la consulta se preparó correctamente
     if ($stmt === false) {
@@ -36,8 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conection->close();
 
     // Redirigir después de completar la operación
-    header('Location: form_vendedor.php');
+    header('Location: form_mecanico.php');
     exit;
 }
 ?>
-
