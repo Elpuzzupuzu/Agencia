@@ -5,7 +5,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $servername = "localhost";
     $username = "root";
-    $password = "1234"; // Cambia esto si tienes una contraseña para tu servidor MySQL
+    $password = "1234"; // 
     $dbname = "agencia";
 
     // Crear conexión
