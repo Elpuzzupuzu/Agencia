@@ -95,7 +95,7 @@ $mensaje_busqueda = ''; // Mensaje específico para la búsqueda
                                         <td><?= $datos->descuento ?></td>
                                         <td><?= $datos->costo_de_venta ?></td>
                                         <td>
-                                            <a href="editar_empleado.php?id=<?= $datos->id ?>" class="btn btn-warning btn-sm">Editar</a>
+                                            <a href="update_auto.php?id=<?= $datos->id ?>" class="btn btn-warning btn-sm">Editar</a>
                                             <a href="eliminar_empleado.php?id=<?= $datos->id ?>" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este registro?');">Eliminar</a>
                                         </td>
                                     </tr>

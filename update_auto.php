@@ -1,3 +1,4 @@
+
 <?php
 // Evitar el caché del navegador
 header("Cache-Control: no cache, no-store, must-revalidate"); // HTTP 1.1.
@@ -11,27 +12,31 @@ $errors = []; // Array para almacenar errores de validación
 // Función para validar datos (puedes expandir esta función según tus necesidades de validación)
 function validarDatos($datos) {
     if (empty($datos['numero_de_serie'])) {
-        return 'El número de serie es obligatorio.';
+        return 'El nombre es obligatorio.';
     }
-    if (empty($datos['id_marca'])) {
-        return 'La marca es obligatoria.';
+    if (empty($datos['id_estado'])) {
+        return 'El apellido es obligatorio.';
     }
     if (empty($datos['id_modelo'])) {
-        return 'El modelo es obligatorio.';
+        return 'El turno es obligatorio.';
     }
     return ''; // Devuelve cadena vacía si no hay errores
 }
 
 // Función para ejecutar el procedimiento almacenado de actualización
-function actualizarEmpleado($conexion, $id, $numero_de_serie, $id_estado, $id_marca, $id_modelo, $numero_cilindros, $disponibilidad, $precio, $numero_puertas, $color, $id_seguro, $id_servicio, $id_garantia, $costo, $descuento, $costo_de_venta) {
+function actualizarAuto($conexion, $id, $numero_de_serie, $id_estado, $id_marca, $id_modelo, $numero_cilindros, $disponibilidad, $precio, $numero_puertas, $color, $id_seguro, $id_servicio, $id_garantia, $costo, $descuento, $costo_de_venta) {
     $sql = $conexion->prepare("CALL UpdateAuto(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     if ($sql === false) {
         die('Error en la preparación de la consulta SQL: ' . $conexion->error);
     }
     // Convertir los valores booleanos a enteros (0 o 1) para MySQL
-    $disponibilidad = isset($disponibilidad) && $disponibilidad ? 1 : 0;
+    $capacitacion = isset($capacitacion) && $capacitacion ? 1 : 0;
+    $infonavit = isset($infonavit) && $infonavit ? 1 : 0;
+    $seguro_social = isset($seguro_social) && $seguro_social ? 1 : 0;
+    $afore = isset($afore) && $afore ? 1 : 0;
+    $vacaciones = isset($vacaciones) && $vacaciones ? 1 : 0;
 
-    $sql->bind_param("issiiisiiisiiiiii", $id, $numero_de_serie, $id_estado, $id_marca, $id_modelo, $numero_cilindros, $disponibilidad, $precio, $numero_puertas, $color, $id_seguro, $id_servicio, $id_garantia, $costo, $descuento, $costo_de_venta);
+    $sql->bind_param("isiiiiiiisiiiiii", $id, $numero_de_serie, $id_estado, $id_marca, $id_modelo, $numero_cilindros, $disponibilidad, $precio, $numero_puertas, $color, $id_seguro, $id_servicio, $id_garantia, $costo, $descuento, $costo_de_venta);
 
     if ($sql->execute()) {
         return true; // Éxito en la ejecución del procedimiento almacenado
@@ -59,6 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
     $descuento = !empty($_POST['descuento']) ? intval($_POST['descuento']) : null;
     $costo_de_venta = !empty($_POST['costo_de_venta']) ? intval($_POST['costo_de_venta']) : null;
 
+
     // Validación de datos
     $validacion = validarDatos($_POST);
     if (!empty($validacion)) {
@@ -67,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
 
     // Llamar al procedimiento almacenado para actualizar el empleado
     if (empty($errors)) {
-        if (actualizarEmpleado($conection, $id, $numero_de_serie, $id_estado, $id_marca, $id_modelo, $numero_cilindros, $disponibilidad, $precio, $numero_puertas, $color, $id_seguro, $id_servicio, $id_garantia, $costo, $descuento, $costo_de_venta)) {
+        if (actualizarAuto($conection, $id, $numero_de_serie, $id_estado, $id_marca, $id_modelo, $numero_cilindros, $disponibilidad, $precio, $numero_puertas, $color, $id_seguro, $id_servicio, $id_garantia, $costo, $descuento, $costo_de_venta)) {
             // Almacenar mensaje de éxito en sesión
             session_start();
             $_SESSION['mensaje'] = "Auto se actualizó correctamente.";
@@ -76,22 +82,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
             header('Location: form_buscar_por_id_auto.php');
             exit;
         } else {
-            $errors[] = "Error al actualizar el auto.";
+            $errors[] = "Error al actualizar el Auto.";
         }
     }
 }
 
-// Obtener datos del auto para prellenar el formulario en caso de GET o error de validación // 0jo
+// Obtener datos del empleado para prellenar el formulario en caso de GET o error de validación
 if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id'])) {
     $id = intval($_GET['id']);
-    $sql = $conection->prepare("SELECT * FROM autos WHERE id = ?");
+    $sql = $conection->prepare("CALL GetAutoById(?)");
+    if ($sql === false) {
+        die('Error en la preparación de la consulta SQL: ' . $conection->error);
+    }
     $sql->bind_param("i", $id);
-    $sql->execute();
-    $resultado = $sql->get_result();
-    $empleado = $resultado->fetch_object();
-
-    if (!$empleado) {
-        die('No se encontró ningún auto con ese ID.');
+    if ($sql->execute()) {
+        $result = $sql->get_result();
+        $empleado = $result->fetch_object();
+        if (!$empleado) {
+            die('No se encontró ningún auto con ese ID.');
+        }
+    } else {
+        die('Error al ejecutar la consulta: ' . $sql->error);
     }
 }
 ?>
@@ -108,9 +119,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id'])) {
     <div class="container">
         <h1 class="text-center p-3">Editar Auto</h1>
         <?php if (isset($empleado)) { ?>
-            <form class="col-4 p-3" action="editar_auto.php" method="POST">
+            <form class="col-4 p-3" action="update_auto.php" method="POST">
                 <input type="hidden" name="id" value="<?php echo htmlspecialchars($empleado->id); ?>">
-                <h3 class="text-center text-secondary">Editar empleado</h3>
+                <h3 class="text-center text-secondary">Editar Auto</h3>
                 <?php if (!empty($errors)) { ?>
                     <div class="alert alert-danger" role="alert">
                         <?php foreach ($errors as $error) { ?>
@@ -267,7 +278,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['id'])) {
                 <button type="submit" class="btn btn-primary">Actualizar</button>
             </form>
         <?php } else { ?>
-            <p>No se ha proporcionado un ID de empleado válido.</p>
+            <p>No se ha proporcionado un ID de AUTO válido.</p>
         <?php } ?>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-9oVn2YfMl/8kP07PLgY4w6gB+5ke6xQ0fX9eSAZ5Le+k+E5aMCw5S5YvvF4vopC1" crossorigin="anonymous"></script>
