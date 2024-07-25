@@ -3,8 +3,8 @@
 include 'conec.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $numero_transaccion = $_POST['numero_de_transaccion'];
-    $id_metodo_pago = $_POST['id_metodo_de_pago'];
+    $numero_transaccion = $_POST['numero_transaccion'];
+    $id_metodo_pago = $_POST['id_metodo_pago'];
     $id_cliente = $_POST['id_cliente'];
     $monto = $_POST['monto'];
 
