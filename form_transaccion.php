@@ -44,7 +44,7 @@
 
            
         
-            <button type="submit" class="btn btn-primary">Registrar Empleado</button>
+            <button type="submit" class="btn btn-primary">Registrar Venta</button>
         </form>
     </div>
 
