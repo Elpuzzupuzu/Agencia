@@ -61,7 +61,7 @@
 <body>
     <h1>Lista de contadores
         <br>
-        <a id="regresar" href="./index.php">Regresar al menú</a>
+        <a id="regresar" href="listas.php">Regresar al menú</a>
     </h1>
 
     <div class="container-fluid">

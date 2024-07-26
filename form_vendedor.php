@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <h1 class="text-center mt-4 mb-4">Registro de vendedores</h1>
-        <a href="./index.php" class="btn btn-primary mb-3">Regresar al menú</a>
+        <a href="anadir.php" class="btn btn-primary mb-3">Regresar al menú</a>
         <?php
         session_start();
         if (isset($_SESSION['mensaje'])) {

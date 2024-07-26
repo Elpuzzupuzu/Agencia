@@ -61,7 +61,7 @@
 <body>
     <h1>Lista de autos
         <br>
-        <a id="regresar" href="./index.php">Regresar al menú</a>
+        <a id="regresar" href="gestionar_autos.php">Regresar al menú</a>
     </h1>
 
     <div class="container-fluid">
@@ -125,6 +125,8 @@
             </div>
         </div>
     </div>
+    <a href="gestionar_autos.php" class="btn">Volver al Inicio</a>
+
 
     <!-- scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

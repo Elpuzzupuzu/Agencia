@@ -44,16 +44,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Reportes</h5>
-                        <p class="card-text">Generar y ver reportes.</p>
-                        <a href="reportes.php" class="btn btn-primary">Ir</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
         
         <!-- Sección de Asesor -->
         <div class="section-title">Asesor</div>
@@ -63,19 +54,11 @@
                     <div class="card-body">
                         <h5 class="card-title">Clientes</h5>
                         <p class="card-text">Ver y gestionar clientes.</p>
-                        <a href="clientes.php" class="btn btn-primary">Ir</a>
+                        <a href="gestion_asesor.php" class="btn btn-primary">Ir</a>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Citas</h5>
-                        <p class="card-text">Gestionar citas con clientes.</p>
-                        <a href="citas.php" class="btn btn-primary">Ir</a>
-                    </div>
-                </div>
-            </div>
+       
         </div>
         
         <!-- Sección de Ventas -->
@@ -86,7 +69,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Transacciones</h5>
                         <p class="card-text">Registrar y ver transacciones.</p>
-                        <a href="insertar_transaccion.php" class="btn btn-primary">Ir</a>
+                        <a href="gestion_vendedor.php" class="btn btn-primary">Ir</a>
                     </div>
                 </div>
             </div>

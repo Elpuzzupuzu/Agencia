@@ -98,7 +98,6 @@ if ($result === false) {
 </head>
 <body>
     <div class="button-container">
-        <a href="index.php" class="btn">Volver al Inicio</a>
     </div>
     <h1>Detalle de Ventas</h1>
     <table>
@@ -157,7 +156,7 @@ if ($result === false) {
         </tbody>
     </table>
     <div class="button-container">
-        <a href="index.php" class="btn">Volver al Inicio</a>
+        <a href="gestionar_autos.php" class="btn">Volver al Inicio</a>
     </div>
 </body>
 </html>

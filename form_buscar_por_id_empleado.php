@@ -28,7 +28,7 @@ $mensaje_busqueda = ''; // Mensaje específico para la búsqueda
 <body>
     <h1 class="text-center p-3">Agencia búsqueda por ID
         <br>
-        <a href="./index.php" class="btn btn-primary">Regresar al menú</a>
+        <a href="anadir.php" class="btn btn-primary">Regresar al menú</a>
     </h1>
 
     <div class="container-fluid" style="display: flex;">

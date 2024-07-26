@@ -61,7 +61,7 @@
 <body>
     <h1>Lista de Mecanicos
         <br>
-        <a id="regresar" href="./index.php">Regresar al menú</a>
+        <a id="regresar" href="listas.php">Regresar al menú</a>
     </h1>
 
     <div class="container-fluid">
@@ -70,7 +70,7 @@
                 <table class="table table-striped">
                     <thead class="bg-info">
                         <tr>
-                            <th scope="col">Id Mecanico</th>
+                            <th scope="col">Id cajero</th>
                             <th scope="col">Id_empleado</th>
                             <th scope="col">Sueldo</th>
                        
