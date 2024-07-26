@@ -12,7 +12,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bind_param("ii", $id_vendedor, $id_auto);
 
     if ($stmt->execute()) {
-        echo "Venta insertada correctamente.";
+        // Si la venta se inserta correctamente, redirigir al index
+        header("Location: index.php"); // Cambia 'index.php' al nombre de tu archivo de índice
+        exit(); // Asegúrate de que el script se detenga después de redirigir
     } else {
         echo "Error al insertar la venta: " . $stmt->error;
     }
