@@ -54,6 +54,26 @@ if ($result === false) {
         tr:hover {
             background-color: #f1f1f1;
         }
+        .button-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .btn {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
         @media (max-width: 768px) {
             table, th, td {
                 display: block;
@@ -77,6 +97,9 @@ if ($result === false) {
     </style>
 </head>
 <body>
+    <div class="button-container">
+        <a href="index.php" class="btn">Volver al Inicio</a>
+    </div>
     <h1>Detalle de Ventas</h1>
     <table>
         <thead>
@@ -133,5 +156,8 @@ if ($result === false) {
             ?>
         </tbody>
     </table>
+    <div class="button-container">
+        <a href="index.php" class="btn">Volver al Inicio</a>
+    </div>
 </body>
 </html>
