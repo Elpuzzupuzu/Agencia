@@ -78,7 +78,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Ventas</h5>
                         <p class="card-text">Ver y gestionar ventas.</p>
-                        <a href="ventas.php" class="btn btn-primary">Ir</a>
+                        <a href="lista_transacciones.php" class="btn btn-primary">Ir</a>
                     </div>
                 </div>
             </div>
